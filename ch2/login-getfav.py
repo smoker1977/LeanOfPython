@@ -19,7 +19,7 @@ login_info = {
 }
 url_login = "http://uta.pw/sakusibbs/users.php?action=login&m=try"
 res = session.post(url_login, data=login_info)
-res.raise_for_status() # エラーならここで例外を発生させる
+res.raise_for_status()  # エラーならここで例外を発生させる
 
 # マイページのURLをピックアップする --- (※4)
 soup = BeautifulSoup(res.text, "html.parser")
@@ -27,6 +27,7 @@ a = soup.select_one(".islogin a")
 if a is None:
     print("マイページが取得できませんでした")
     quit()
+
 # 相対URLを絶対URLに変換
 url_mypage = urljoin(url_login, a.attrs["href"]) 
 print("マイページ=", url_mypage)
