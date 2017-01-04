@@ -1,4 +1,4 @@
-# Pythonのマニュアルを再帰的にダウンロード 
+# Pythonのマニュアルを再帰的にダウンロード
 # モジュールの取り込み --- (※1)
 from bs4 import BeautifulSoup
 from urllib.request import *
@@ -12,8 +12,8 @@ proc_files = {}
 # HTML内にあるリンクを抽出する関数 --- (※3)
 def enum_links(html, base):
     soup = BeautifulSoup(html, "html.parser")
-    links = soup.select("link[rel='stylesheet']") # CSS
-    links += soup.select("a[href]") # リンク
+    links = soup.select("link[rel='stylesheet']")  # CSS
+    links += soup.select("a[href]")  # リンク
     result = []
     # href属性を取り出し、リンクを絶対パスに変換 --- (※4)
     for a in links:
@@ -25,12 +25,15 @@ def enum_links(html, base):
 # ファイルをダウンロードし保存する関数 --- (※5)
 def download_file(url):
     o = urlparse(url)
+    print(url)  #入力URLの表示
+
     savepath = "./" + o.netloc + o.path
-    if re.search(r"/$", savepath): # ディレクトリならindex.html
+    if re.search(r"/$", savepath):  # ディレクトリならindex.html
         savepath += "index.html"
     savedir = os.path.dirname(savepath)
     # 既にダウンロード済み?
-    if os.path.exists(savepath): return savepath
+    if os.path.exists(savepath):
+        return savepath
     # ダウンロード先のディレクトリを作成
     if not os.path.exists(savedir):
         print("mkdir=", savedir)
@@ -39,7 +42,7 @@ def download_file(url):
     try:
         print("download=", url)
         urlretrieve(url, savepath)
-        time.sleep(1) # 礼儀として1秒スリープ --- (※7)
+        time.sleep(1)  # 礼儀として1秒スリープ --- (※7)
         return savepath
     except:
         print("ダウンロード失敗:", url)
@@ -48,8 +51,11 @@ def download_file(url):
 # HTMLを解析してダウンロードする関数 --- (※8)
 def analize_html(url, root_url):
     savepath = download_file(url)
-    if savepath is None: return
-    if savepath in proc_files: return # 解析済みなら処理しない --- (※9)
+    if savepath is None:
+        return
+    if savepath in proc_files:
+        # 解析済みなら処理しない --- (※9)
+        return
     proc_files[savepath] = True
     print("analize_html=", url)
     # リンクを抽出 --- (※10)
@@ -58,7 +64,8 @@ def analize_html(url, root_url):
     for link_url in links:
         # リンクがルート以外のパスを指していたら無視 --- (※11)
         if link_url.find(root_url) != 0:
-            if not re.search(r".css$", link_url): continue
+            if not re.search(r".css$", link_url):
+                continue
         # HTMLか？
         if re.search(r".(html|htm)$", link_url):
             # 再帰的にHTMLファイルを解析
@@ -71,5 +78,3 @@ if __name__ == "__main__":
     # URLを丸ごとダウンロード --- (※13)
     url = "http://docs.python.jp/3.5/library/"
     analize_html(url, url)
-
-
