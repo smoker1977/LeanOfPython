@@ -19,7 +19,9 @@ login_info = {
 }
 url_login = "http://uta.pw/sakusibbs/users.php?action=login&m=try"
 res = session.post(url_login, data=login_info)
-res.raise_for_status()  # エラーならここで例外を発生させる
+
+# エラーならここで例外を発生させる
+res.raise_for_status()
 
 # マイページのURLをピックアップする --- (※4)
 soup = BeautifulSoup(res.text, "html.parser")
