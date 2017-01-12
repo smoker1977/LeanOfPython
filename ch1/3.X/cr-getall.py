@@ -76,5 +76,6 @@ def analize_html(url, root_url):
 
 if __name__ == "__main__":
     # URLを丸ごとダウンロード --- (※13)
-    url = "http://docs.python.jp/3.5/library/"
+    # url = "http://docs.python.jp/3.5/library/"
+    url = "http://cptl.corp.yahoo.co.jp/pages/viewpage.action?pageId=1224894843"
     analize_html(url, url)
