@@ -1,3 +1,11 @@
+#
+# 言語判別の機械学習
+# データごとの分布をグラフにする
+#
+# Author        :t.kurahara@gmail.com
+# Create DATE   :2017/01/17
+#
+
 #!/usr/bin/env python3
 import cgi, os.path
 from sklearn.externals import joblib
